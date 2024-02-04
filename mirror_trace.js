@@ -17,7 +17,7 @@
 
 var materials = {
 		'mirror' : [false, true, true, true, true, true, true, true],
-		'file_names' : ["https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/sample.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh3.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial3.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/sample.png"],
+		'file_names' : ["https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/sample.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh3.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh1.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trialh2.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/trial3.png", "https://raw.githubusercontent.com/rcalinjageman/mirror_trace/master/sample.png"],
 		'xstarts' : [47,	27,		40,		280,		27, 40, 280, 33],
 		'ystarts' : [256,	275,	45,		276,		275, 45, 276, 250],
 		'xends' :   [344,	370,	368,	33,			370, 368, 33, 47],
@@ -305,8 +305,11 @@ function do_mirror() {
 						}
 						 ctx_mirror.fill();
 						ctx_mirror.globalAlpha=1
-						
 						drawing = true;
+						var randomDelay = Math.random() * 5000; // Random time less than 5 seconds
+    					setTimeout(function() {
+      							  showRandomContent(); // Show the first random image after the random delay
+    								}, randomDelay);
 						finished = false;
 						startTime = new Date();
 						ctx_mirror.beginPath();
@@ -400,44 +403,105 @@ const images = [
     'star.png',
     'circle.png',
     'tria.png',
-    // Add more images as needed
+	'smile.png',
+	'bird.png',
+	'ins.png',
+	'burger.png',
+	'clock.png',
+	'warn.png', 
+	'sale.png',
+	'dna.png',
+	'peng.png',
+	'fish.png',
+	'frog.png',
+	'paw.png',
+	'eagle.png',
+	'ghost.jpeg',
+	'spotify.png',
+	'amazon.png',
+	'steam.png',
+	'youtube.png',
+	'calendar.png',
+	'meme.png',
+	'sad.png',
+	'pika.png'
 ];
 
-function showRandomImage() {
-    // Minimum and maximum time to the next distractor
-    const minTime = 2000; // e.g., 2 seconds
-    const maxTime = 5000; // e.g., 5 seconds
+const audioFiles = [
+	'scratch.mp3',
+	'bubble.mp3',
+	'click.mp3',
+	'teddy.mp3',
+	'attack.mp3',
+	'glitch.mp3',
+	'drive.mp3',
+	'air.mp3',
+	'buzz.mp3',
+	'gun.mp3',
+	'cry.mp3',
+	'crash.mp3',
+	'shout.mp3',
+	'haha.mp3'
+    // Add more images as needed
+]
 
-    // Random time interval for when the next distractor will appear
-    const timeToNext = Math.random() * (maxTime - minTime) + minTime;
+function getRandomContent() {
 
-    // Remove any existing popup
-    const existingPopup = document.querySelector('.distractingPopup');
-    if (existingPopup) {
-        existingPopup.remove();
+    const random = Math.random();
+    if (random < 0.5) {
+        // 50% chance to select an image
+        const imageSrc = images.pop();
+        return {
+            type: 'image',
+            src: imageSrc,
+        };
+    } else {
+        // 50% chance to select an audio file
+        const audioSrc = audioFiles.pop();
+        return {
+            type: 'audio',
+            src: audioSrc,
+        };
+    }
+}
+
+function showRandomContent() {
+    if (images.length === 0 && audioFiles.length === 0) {
+        console.log("All content has been displayed.");
+        return; // Stop if all content has been shown
     }
 
-    // Create new popup
-    const imageIndex = Math.floor(Math.random() * images.length);
-    const popup = document.createElement('img');
-    popup.src = images[imageIndex];
-    popup.classList.add('distractingPopup');
-    popup.style.position = 'absolute';
-    popup.style.width = '100px'; // Adjust as needed
-    const posX = Math.random() < 0.5 ? 100 : window.innerWidth - 200; // Left or right
-    const posY = Math.random() * (window.innerHeight - 100); // Random Y position
-    popup.style.left = `${posX}px`;
-    popup.style.top = `${posY}px`;
+    const content = getRandomContent();
 
-    document.body.appendChild(popup);
+    if (content.type === 'image') {
+        // Display image
+        const popup = document.createElement('img');
+        popup.src = content.src;
+        popup.classList.add('distractingPopup');
+        popup.style.position = 'absolute';
+        popup.style.width = '150px'; // Adjust as needed
 
-    // Set a timeout to remove the popup after 1 second
+        const posX = Math.random() < 0.5 ? 100 : window.innerWidth - 200; // Left or right
+        const posY = Math.random() * (window.innerHeight - 100); // Random Y position
+        popup.style.left = `${posX}px`;
+        popup.style.top = `${posY}px`;
+
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            // Remove the image after 1 second
+            document.body.removeChild(popup);
+        }, 1000);
+    } else if (content.type === 'audio') {
+        // Play audio
+        const audio = new Audio(content.src);
+        audio.play();
+
+    }
+
     setTimeout(() => {
-        popup.remove(); 
-    }, 1000); // Displayed for 1 second
-
-    // Set a timeout to show the next popup after a random interval
-    setTimeout(() => {
-        showRandomImage(); // Setup the next popup
-    }, timeToNext);
+        // Optionally, call showRandomContent() again after a random delay
+        const nextDelay = Math.random() * (5000 - 2000) + 2000; // 2 to 5 seconds
+        setTimeout(showRandomContent, nextDelay);
+    }, 1000);
 }
