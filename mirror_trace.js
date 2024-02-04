@@ -35,7 +35,7 @@ var materials = {
 	// the php script is posted on github
 	var saveScript = "https://calin-jageman.net/mirror_trace/save.php"
 	var saveTrace = false;
-	
+	var complete = false; 
 
 	//image dimensions
 	var mywidth = 400;
@@ -63,7 +63,7 @@ var materials = {
 	var currentRefresh = 0;
 	
 
-
+	
 function do_mirror() {	
 	//load materials
 	var imagePath = materials.file_names[trialnumber];	
@@ -168,6 +168,7 @@ function do_mirror() {
 		  if (drawing) {
 			drawing = false;
 			finished = true;
+			complete = true;
 			if (saveTrace) {
 				saveCanvas();
 				//call save function
@@ -323,7 +324,8 @@ function do_mirror() {
 			}
 			
 	}, false);
-	 
+
+
 	 
 	var onPaint = function() {
 			if(mirror) {
@@ -334,7 +336,7 @@ function do_mirror() {
 			ctx_mirror.stroke();
 	};
 
-
+	 
 function betterPos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
     return {
@@ -467,6 +469,7 @@ function getRandomContent() {
 }
 
 function showRandomContent() {
+	
     if (images.length === 0 && audioFiles.length === 0) {
         console.log("All content has been displayed.");
         return; // Stop if all content has been shown
@@ -501,10 +504,13 @@ function showRandomContent() {
     }
 
     setTimeout(() => {
-        // Optionally, call showRandomContent() again after a random delay
-        const nextDelay = Math.random() * (5000 - 2000) + 2000; // 2 to 5 seconds
-        setTimeout(showRandomContent, nextDelay);
-    }, 1000);
+		// Optionally, call showRandomContent() again after a random delay
+		const nextDelay = Math.random() * (5000 - 2000) + 2000; // 2 to 5 seconds
+		if (!complete) {
+			setTimeout(showRandomContent, nextDelay);
+		}
+	}, 1000);
+	
 }
 function shuffleArray(array) {
 	for (let i = array.length - 1; i > 0; i--) {
