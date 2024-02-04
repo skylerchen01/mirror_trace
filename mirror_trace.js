@@ -266,7 +266,7 @@ function do_mirror() {
 				document.getElementById("status").innerHTML = "Click the green circle to begin this trial"; 
 			}
 			} else {
-				document.getElementById("status").innerHTML = "Finished with score = " + Math.round(score *100) + "%<BR> Click next to continue."; 
+				document.getElementById("status").innerHTML = "Finished with score = " + Math.round(score *100) + "%<BR> Finished."; 
 			}
 		}
 		 
@@ -446,7 +446,8 @@ const audioFiles = [
 ]
 
 function getRandomContent() {
-
+	shuffleArray(images);
+	shuffleArray(audioFiles);
     const random = Math.random();
     if (random < 0.5) {
         // 50% chance to select an image
@@ -505,3 +506,8 @@ function showRandomContent() {
         setTimeout(showRandomContent, nextDelay);
     }, 1000);
 }
+function shuffleArray(array) {
+	for (let i = array.length - 1; i > 0; i--) {
+	  const j = Math.floor(Math.random() * (i + 1));
+	  [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+	}}
