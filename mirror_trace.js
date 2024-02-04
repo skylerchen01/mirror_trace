@@ -443,7 +443,14 @@ const audioFiles = [
 	'cry.mp3',
 	'crash.mp3',
 	'shout.mp3',
-	'haha.mp3'
+	'haha.mp3',
+	'bell.mp3',
+	'drums.mp3',
+	'ba.mp3',
+	'whisle.mp3',
+	'wiggle.mp3',
+	'star.mp3',
+	'vib.mp3'
     // Add more images as needed
 ]
 
