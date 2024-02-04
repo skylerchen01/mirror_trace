@@ -392,6 +392,52 @@ function saveCanvas() {
 		base64data : data
 	    }
 	});
+	
 }
 
+}
+const images = [
+    'star.png',
+    'circle.png',
+    'tria.png',
+    // Add more images as needed
+];
+
+function showRandomImage() {
+    // Minimum and maximum time to the next distractor
+    const minTime = 2000; // e.g., 2 seconds
+    const maxTime = 5000; // e.g., 5 seconds
+
+    // Random time interval for when the next distractor will appear
+    const timeToNext = Math.random() * (maxTime - minTime) + minTime;
+
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.distractingPopup');
+    if (existingPopup) {
+        existingPopup.remove();
+    }
+
+    // Create new popup
+    const imageIndex = Math.floor(Math.random() * images.length);
+    const popup = document.createElement('img');
+    popup.src = images[imageIndex];
+    popup.classList.add('distractingPopup');
+    popup.style.position = 'absolute';
+    popup.style.width = '100px'; // Adjust as needed
+    const posX = Math.random() < 0.5 ? 100 : window.innerWidth - 200; // Left or right
+    const posY = Math.random() * (window.innerHeight - 100); // Random Y position
+    popup.style.left = `${posX}px`;
+    popup.style.top = `${posY}px`;
+
+    document.body.appendChild(popup);
+
+    // Set a timeout to remove the popup after 1 second
+    setTimeout(() => {
+        popup.remove(); 
+    }, 1000); // Displayed for 1 second
+
+    // Set a timeout to show the next popup after a random interval
+    setTimeout(() => {
+        showRandomImage(); // Setup the next popup
+    }, timeToNext);
 }
