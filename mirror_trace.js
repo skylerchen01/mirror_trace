@@ -43,7 +43,7 @@ var materials = {
 
 	var score = 0;
 	var timeDiff = 0;
-	var trialnumber = 0;
+	var trialnumber = 1;
 	var MID = 0;
 	var drawing = false;
 	var finished = false;
